@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Ability</title>
+    <title>Add Location</title>
     <style>
         form {
             max-width: 400px;
@@ -37,26 +37,22 @@
     </style>
 </head>
 <body>
-<h1 class="title">Edit Ability</h1>
+<h1 class="title">Add New Location</h1>
 <form id="addPlayerForm">
     <label for="playerName">Name:</label>
-    <input type="text" id="playerName" name="playerName" value="Current Name" required><br>
+    <input type="text" id="playerName" name="playerName" required><br>
 
     <label for="playerName">Description:</label>
-    <input type="text" id="playerName" name="playerName" value="Current Description" required><br>
+    <input type="text" id="playerName" name="playerName" required><br>
 
-    <label for="playerAbilities">Type</label>
+    <label for="playerAbilities">Location Type</label>
     <select id="playerAbilities" name="playerAbilities" required>
-        <option value="Kick">Attack</option>
+        <option value="Kick">Spawn</option>
         <option value="Stab">Healing</option>
         <option value="Punch">Enemy</option>
     </select><br><br>
 
-    <input type="checkbox" id="enemyOnlyAbility" name="playerName" style="display: inline; width: auto;" required>
-    <label for="enemyOnlyAbility" style="display: inline">Enemy Only Ability?</label><br><br><br>
-
-
-    <button type="button" onclick="window.location.href='admin.html';">Update Ability</button>
+    <button type="button" onclick="window.location.href='admin.html';">Add Location</button>
     <button type="button" onclick="window.location.href='admin.html';">Cancel</button>
 </form>
 

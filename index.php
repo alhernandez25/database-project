@@ -121,7 +121,7 @@ $players_query = mysqli_query($connection, $sql);
         </tbody>
     </table>
     <button type="button" class="btn" id="PlayGame" onclick="window.location.href='play.html';">Play Game</button>
-    <button type="button" class="btn" id="GameAdmin" onclick="window.location.href='admin.html';">Login as Game Admin</button>
+    <button type="button" class="btn" id="GameAdmin" onclick="window.location.href='admin.php';">Login as Game Admin</button>
 </div>
 </body>
 </html>
