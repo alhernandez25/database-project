@@ -86,3 +86,16 @@ else if (isset($_POST["updatePlayer"])) {
 else if (isset($_POST["addLocation"])) {
 
 }
+else if (isset($_POST["deleteLocation"])) {
+    // Delete location
+    $sql = "DELETE FROM Locations WHERE location_id = ?;";
+
+    $stmt = mysqli_stmt_init($connection);
+
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $_POST["location_id"]);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    header("location: ./index.php");
+}
