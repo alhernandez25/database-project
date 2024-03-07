@@ -1,3 +1,10 @@
+<?php
+include_once("connection.php");
+
+$sql = "SELECT * FROM Locations;";
+$locations_query = mysqli_query($connection, $sql);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,11 +81,18 @@
         </tr>
         </thead>
         <tbody id="currentLocations">
-        <tr>
-            <td>Oregon</td>
-            <td><button type="button" class="btn">Delete</button></td>
-            <td><button type="button" class="btn" onclick="window.location.href='edit_location.html';">Edit</button></td>
-        </tr>
+        <?php
+        while ($location = mysqli_fetch_assoc($locations_query)) { ?>
+            <tr>
+                <td><?php echo $location["name"]; ?></td>
+                <form action="./database.php" method="post">
+                    <input name="location_id" value="<?php echo $location["location_id"]; ?>" type="hidden">
+                    <td><button type="submit" name="deleteLocation" class="btn">Delete</button></td>
+                </form>
+                <td><a href="edit_location.php?id=<?php echo $location["location_id"];?>"><button class="btn">Edit</button></a></td>
+            </tr> <?php
+        }
+        ?>
         <tr>
             <td>Bikini Bottom</td>
             <td><button type="button" class="btn">Delete</button></td>

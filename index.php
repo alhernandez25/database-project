@@ -1,24 +1,8 @@
 <?php
 include_once("connection.php");
 
-$sql = "SELECT Players.player_id, Players.name AS player_name, 
-Abilities.ability_id, Abilities.name AS ability_name,
-PlayerDetails.player_details_id
-FROM Players
-JOIN PlayerDetails on Players.player_id = PlayerDetails.player_id
-JOIN Abilities on PlayerDetails.ability_id = Abilities.ability_id
-WHERE Players.player_id = ?;";
-$stmt = mysqli_stmt_init($connection);
-
-mysqli_stmt_prepare($stmt, $sql);
-mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
-mysqli_stmt_execute($stmt);
-$player_query = $stmt->get_result();
-mysqli_stmt_close($stmt);
-
-
-$sql = "SELECT * FROM Abilities WHERE enemy_only != 1;";
-$abilities_query = mysqli_query($connection, $sql);
+$sql = "SELECT player_id, name FROM Players";
+$players_query = mysqli_query($connection, $sql);
 
 ?>
 <!DOCTYPE html>
@@ -26,86 +10,118 @@ $abilities_query = mysqli_query($connection, $sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Player</title>
+    <title>Players</title>
     <style>
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        label {
-            display: block;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: blue;
-            color: white;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: blue;
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        h1.title{
+        h1 {
             text-align: center;
         }
 
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 24px;
+        }
+
+        th, td {
+            border: 2px solid black;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: orange;
+        }
+
+        form {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: blue;
+        }
+
+        #PlayGame {
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #GameAdmin {
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #searchPlayer {
+            width: 300px;
+            padding: 10px;
+            border: 2px solid black;
+            border-radius: 5px;
+            box-sizing: border-box;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
-<h1 class="title">Edit Player</h1>
-<form action="./database.php" method="post">
-    <?php
-    $player = mysqli_fetch_assoc($player_query);
-    ?>
-    <input type="hidden" name="playerID" value="<?php echo $_GET["id"]; ?>">
-
-    <label for="playerName">Name:</label>
-    <input type="text" id="playerName" name="playerName" value="<?php echo $player["player_name"]; ?>" required><br>
-
-    <input type="hidden" name="playerDetails1" value="<?php echo $player["player_details_id"]; ?>">
-    <label for="playerAbilities1">Ability 1:</label>
-    <select id="playerAbilities1" name="playerAbility1" required>
+<div>
+    <h1>Players</h1>
+    <form id="playerForm">
+        <div style="text-align: center;">
+            <button type="button" class="btn" id="addPlayerBtn" onclick="window.location.href='add_player.php';">Add Player</button>
+        </div>
+        <div style="text-align: center; margin-top: 10px;">
+            <input type="text" id="searchPlayer" name="searchPlayer" placeholder="Search Player by Name">
+            <button type="button" class="btn" id="searchButton">Search</button>
+        </div>
+    </form>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Delete</th>
+            <th>Edit</th>
+        </tr>
+        </thead>
+        <tbody id="currentPlayers">
         <?php
-        while ($ability = mysqli_fetch_assoc($abilities_query)) {
-            $selected = "";
-
-            if ($ability["ability_id"] == $player["ability_id"]) {
-                $selected = "selected";
-            } ?>
-            <option value="<?php echo $ability["ability_id"] ?>" <?php echo $selected;?>><?php echo $ability["name"] ?></option>
-            <?php
-        }
-        mysqli_data_seek($abilities_query, 0);
-        $player = mysqli_fetch_assoc($player_query);
-        ?>
-    </select><br><br>
-
-    <input type="hidden" name="playerDetails2" value="<?php echo $player["player_details_id"]; ?>">
-    <label for="playerAbilities2">Ability 2:</label>
-    <select id="playerAbilities2" name="playerAbility2" required>
-        <?php
-        while ($ability = mysqli_fetch_assoc($abilities_query)) {
-            $selected = "";
-            if ($ability["ability_id"] == $player["ability_id"]) {
-                $selected = "selected";
-            } ?>
-            <option value="<?php echo $ability["ability_id"]; ?>" <?php echo $selected;?>><?php echo $ability["name"]; ?></option>
-            <?php
+        while ($player = mysqli_fetch_assoc($players_query)) { ?>
+            <tr>
+                <td><?php echo $player["name"]; ?></td>
+                <form action="./database.php" method="post">
+                    <input name="player_id" value="<?php echo $player["player_id"]; ?>" type="hidden">
+                    <td><button type="submit" name="deletePlayer" class="btn">Delete</button></td>
+                </form>
+                <td><a href="edit_player.php?id=<?php echo $player["player_id"];?>"><button class="btn">Edit</button></a></td>
+            </tr> <?php
         }
         ?>
-    </select><br><br>
-
-    <button type="submit" name="updatePlayer">Update Player</button>
-    <button type="button" onclick="window.location.href='index.php';">Cancel</button>
-</form>
-
+        </tbody>
+    </table>
+    <button type="button" class="btn" id="PlayGame" onclick="window.location.href='play.html';">Play Game</button>
+    <button type="button" class="btn" id="GameAdmin" onclick="window.location.href='admin.html';">Login as Game Admin</button>
+</div>
 </body>
 </html>
