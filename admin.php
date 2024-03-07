@@ -93,18 +93,11 @@ $locations_query = mysqli_query($connection, $sql);
             </tr> <?php
         }
         ?>
-        <tr>
-            <td>Bikini Bottom</td>
-            <td><button type="button" class="btn">Delete</button></td>
-            <td><button type="button" class="btn" onclick="window.location.href='edit_location.html';">Edit</button></td>
-        </tr>
         </tbody>
     </table>
-    <form id="playerForm">
-        <div style="text-align: center;">
-            <button type="button" class="btn" id="addLocationBtn" onclick="window.location.href='add_location.html';">Add Location</button>
-        </div>
-    </form>
+    <div style="text-align: center;">
+        <button type="button" class="btn" id="addLocationBtn" onclick="window.location.href='add_location.php';">Add Location</button>
+    </div>
 
     <h2>Current Enemies</h2>
     <table>
@@ -152,22 +145,22 @@ $locations_query = mysqli_query($connection, $sql);
         <tr>
             <td>Basic Attack</td>
             <td><button type="button" class="btn">Delete</button></td>
-            <td><button type="button" class="btn" onclick="window.location.href='edit_ability.html';">Edit</button></td>
+            <td><button type="button" class="btn" onclick="window.location.href='edit_ability.php';">Edit</button></td>
         </tr>
         <tr>
             <td>Magic Attack</td>
             <td><button type="button" class="btn">Delete</button></td>
-            <td><button type="button" class="btn" onclick="window.location.href='edit_ability.html';">Edit</button></td>
+            <td><button type="button" class="btn" onclick="window.location.href='edit_ability.php';">Edit</button></td>
         </tr>
         </tbody>
     </table>
     <form id="playerForm">
         <div style="text-align: center;">
-            <button type="button" class="btn" id="addAbilityBtn" onclick="window.location.href='add_ability.html';">Add Ability</button>
+            <button type="button" class="btn" id="addAbilityBtn" onclick="window.location.href='add_ability.php';">Add Ability</button>
         </div>
     </form>
 
-    <button type="button" class="btn" id="BackButton" onclick="window.location.href='index.html';">Back</button>
+    <button type="button" class="btn" id="BackButton" onclick="window.location.href='index.php';">Back</button>
 </div>
 </body>
 </html>

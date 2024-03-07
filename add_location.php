@@ -1,3 +1,7 @@
+<?php
+include_once("connection.php");
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,11 +49,11 @@
     <label for="playerName">Description:</label>
     <input type="text" id="playerName" name="playerName" required><br>
 
-    <label for="playerAbilities">Location Type</label>
-    <select id="playerAbilities" name="playerAbilities" required>
-        <option value="Kick">Spawn</option>
-        <option value="Stab">Healing</option>
-        <option value="Punch">Enemy</option>
+    <label for="type">Location Type</label>
+    <select id="type" name="type" required>
+        <option value="Spawn">Spawn</option>
+        <option value="Healing">Healing</option>
+        <option value="Enemy">Enemy</option>
     </select><br><br>
 
     <button type="button" onclick="window.location.href='admin.html';">Add Location</button>
