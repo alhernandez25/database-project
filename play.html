@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Total Conquest</title>
+  <style>
+
+    body {
+      max-width: 800px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    th, td {
+      border: 2px solid black;
+      padding: 12px;
+      text-align: left;
+    }
+
+    form {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background-color: blue;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background-color: blue;
+    }
+
+    #health {
+      color: green;
+    }
+
+    #moves {
+      text-align: center;
+    }
+
+    .move {
+      display: inline-block;
+      margin: 8px;
+      width: 200px;
+    }
+
+    .location {
+      display: block;
+      width: 200px;
+      margin: 8px auto;
+    }
+
+    .target {
+      display: block;
+      width: 200px;
+      margin: 8px auto;
+    }
+
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Total Conquest</h1>
+    <hr>
+      <h2 style="display: inline-block">Player: Juan</h2>
+      <h2 style="float: right;">Next Player: Alejandro</h2>
+    <div>
+      <h3 style="display: inline-block; float: right;">Health: <span id="health">87</span>/100</h3>
+      <h3 style="display: inline-block">Turn: 10</h3>
+      <h3 style="text-align: center">Current Location: Oregon</h3>
+    </div>
+    <div id="moves">
+      <div style="display: block; margin-right: auto; margin-left: auto">
+        <button type="button" class="btn move" onclick="chooseTarget()">Use Basic Attack</button>
+        <button type="button" class="btn move">Use Heal</button>
+      </div>
+      <div style="display: block; margin-right: auto; margin-left: auto">
+        <button type="button" class="btn move" onclick="showLocations()">Change Location</button>
+        <button type="button" class="btn move">Skip Turn</button>
+      </div>
+    </div>
+    <div id="locations" style="display: none;">
+      <div style="display: block;">
+        <button type="button" class="btn location">Narnia</button>
+        <button type="button" class="btn location">Bikini Bottom</button>
+        <button type="button" class="btn location">Transylvania</button>
+        <button type="button" class="btn location" onclick="cancelChangeLocation()">Cancel</button>
+      </div>
+    </div>
+    <div id="targets" style="display: none;">
+      <div style="display: block; text-align: center">
+        <h4>Select Target</h4>
+        <button type="button" class="btn target">Plankton</button>
+        <button type="button" class="btn target" onclick="cancelAttack()">Cancel</button>
+      </div>
+    </div>
+    <div>
+      <h3>Logs</h3>
+      <div style="border: black 1px solid; width: 100%; height: 200px; padding: 0px 15px">
+        <p>Plankton used Basic Attack and inflicted 20 damage on Alejandro!</p>
+        <p>Alejandro used Heal for 50 hp</p>
+        <p>Juan used Magic Attack and inflicted 45 damage on Plankton! Plankton is now at 0 hp</p>
+        <p>Plankton has died!</p>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  function showLocations() {
+    document.getElementById("moves").style.display = "none";
+    document.getElementById("locations").style.display = "block";
+  }
+
+  function cancelChangeLocation() {
+    document.getElementById("locations").style.display = "none";
+    document.getElementById("moves").style.display = "block";
+  }
+
+  function chooseTarget() {
+    document.getElementById("moves").style.display = "none";
+    document.getElementById("targets").style.display = "block";
+  }
+
+  function cancelAttack() {
+    document.getElementById("targets").style.display = "none";
+    document.getElementById("moves").style.display = "block";
+  }
+</script>
+</html>
