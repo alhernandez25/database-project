@@ -16,7 +16,6 @@ mysqli_stmt_execute($stmt);
 $enemy_query = $stmt->get_result();
 $enemy = mysqli_fetch_assoc($enemy_query);
 
-
 $sql = "SELECT * FROM Abilities";
 $abilities_query = mysqli_query($connection, $sql);
 
@@ -69,6 +68,7 @@ $locations_query = mysqli_query($connection, $sql);
 
     <label for="enemyName">Name:</label>
     <input type="text" id="enemyName" name="enemyName" value="<?php echo $enemy["enemy_name"]; ?>" required><br>
+
     <input type="hidden" name="enemyDetails1" value="<?php echo $enemy["enemy_details_id"]; ?>">
     <label for="enemyAbilities1">Ability 1:</label>
     <select id="enemyAbilities1" name="enemyAbility1" required>

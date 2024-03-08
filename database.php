@@ -168,9 +168,31 @@ else if (isset($_POST["deleteEnemy"])) {
     header("location: ./admin.php");
 }
 else if (isset($_POST["addLocation"])) {
+    $name = $_POST["locationName"];
+    $description = $_POST["locationDescription"];
+    $type = $_POST["locationType"];
 
+    // Insert location
+    $sql = "INSERT INTO Locations (name, description, type) VALUES (?, ?, ?)";
+    $stmt = mysqli_stmt_init($connection);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "sss", $name, $description, $type);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    header("location: ./admin.php");
 }
 else if (isset($_POST["deleteLocation"])) {
+    // Check if there is at least 1 spawn type
+    $sql = "SELECT * FROM Locations WHERE type='Spawn';";
+    $locations_query = mysqli_query($connection, $sql);
+
+    if (mysqli_num_rows($locations_query) == 1) {
+        $row = mysqli_fetch_assoc($locations_query);
+        if ($row["location_id"] == $_POST["location_id"]) {
+            header("location: ./admin.php?error=spawn_deletion");
+        }
+    }
     // Delete location
     $sql = "DELETE FROM Locations WHERE location_id = ?;";
 
@@ -181,5 +203,80 @@ else if (isset($_POST["deleteLocation"])) {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
-    header("location: ./index.php");
+    header("location: ./admin.php");
+}
+else if(isset($_POST["updateLocation"])) {
+    $locationID = $_POST["locationID"];
+    $name = $_POST["locationName"];
+    $description = $_POST["locationDescription"];
+    $type = $_POST["locationType"];
+
+    // Check if there is at least 1 spawn type
+    $sql = "SELECT * FROM Locations WHERE type='Spawn';";
+    $locations_query = mysqli_query($connection, $sql);
+
+    if (mysqli_num_rows($locations_query) == 1) {
+        $row = mysqli_fetch_assoc($locations_query);
+        if ($row["location_id"] == $locationID && $type != "Spawn") {
+            header("location: ./admin.php?error=spawn_update");
+        }
+    }
+
+    // Update enemy name and location
+    $sql = "UPDATE Locations SET name = ?, description = ?, type = ? WHERE location_id = ?";
+    $stmt = mysqli_stmt_init($connection);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "sssi", $name, $description, $type, $locationID);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    header("location: ./admin.php");
+}
+else if (isset($_POST["addAbility"])) {
+    $name = $_POST["abilityName"];
+    $description = $_POST["abilityDescription"];
+    $type = $_POST["abilityType"];
+    $enemyOnly = (isset($_POST["abilityEnemyOnly"])) ? 1 : 0;
+    $damage = intval($_POST["abilityDamage"]);
+
+    // Insert location
+    $sql = "INSERT INTO Abilities (name, description, type, damage, enemy_only) VALUES (?, ?, ?, ?, ?)";
+    $stmt = mysqli_stmt_init($connection);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "sssii", $name, $description, $type, $damage, $enemyOnly);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    header("location: ./admin.php");
+}
+else if (isset($_POST["deleteAbility"])) {
+    // Delete location
+    $sql = "DELETE FROM Abilities WHERE ability_id = ?;";
+
+    $stmt = mysqli_stmt_init($connection);
+
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $_POST["ability_id"]);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    header("location: ./admin.php");
+}
+else if(isset($_POST["updateAbility"])) {
+    $abilityID = $_POST["abilityID"];
+    $name = $_POST["abilityName"];
+    $description = $_POST["abilityDescription"];
+    $type = $_POST["abilityType"];
+    $enemyOnly = (isset($_POST["abilityEnemyOnly"])) ? 1 : 0;
+    $damage = intval($_POST["abilityDamage"]);
+
+    // Update ability
+    $sql = "UPDATE Abilities SET name = ?, description = ?, type = ?, enemy_only = ?, damage = ? WHERE ability_id = ?";
+    $stmt = mysqli_stmt_init($connection);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "sssiii", $name, $description, $type, $enemyOnly, $damage, $abilityID);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    header("location: ./admin.php");
 }
