@@ -1,8 +1,13 @@
 <?php
 include_once("connection.php");
+$sql = "SELECT enemy_id, name from Enemies";
+$enemies_query = mysqli_query($connection, $sql);
 
 $sql = "SELECT * FROM Locations;";
 $locations_query = mysqli_query($connection, $sql);
+
+$sql = "SELECT * FROM Abilities;";
+$abilities_query = mysqli_query($connection, $sql);
 
 ?>
 <!DOCTYPE html>
@@ -72,6 +77,14 @@ $locations_query = mysqli_query($connection, $sql);
     <h1>Manage Game</h1>
 
     <h2>Current Locations</h2>
+    <?php
+        if(isset($_GET["error"]) && $_GET["error"] == "spawn_deletion") {
+            echo "<p style='color:red;'>Could not delete location. Must have at least 1 location of \"Spawn\" type</p>";
+        }
+        else if(isset($_GET["error"]) && $_GET["error"] == "spawn_update") {
+            echo "<p style='color:red;'>Could not update location spawn type. Must have at least 1 location of \"Spawn\" type</p>";
+        }
+    ?>
     <table>
         <thead>
         <tr>
@@ -109,26 +122,22 @@ $locations_query = mysqli_query($connection, $sql);
         </tr>
         </thead>
         <tbody id="currentEnemies">
-        <tr>
-            <td>Plankton</td>
-            <td><button type="button" class="btn">Delete</button></td>
-            <td><button type="button" class="btn" onclick="window.location.href='edit_enemy.html';">Edit</button></td>
-        </tr>
-        <tr>
-            <td>Dracula</td>
-            <td><button type="button" class="btn">Delete</button></td>
-            <td><button type="button" class="btn" onclick="window.location.href='edit_enemy.html';">Edit</button></td>
-        </tr>
-        <tr>
-            <td>Voldemort</td>
-            <td><button type="button" class="btn">Delete</button></td>
-            <td><button type="button" class="btn" onclick="window.location.href='edit_enemy.html';">Edit</button></td>
-        </tr>
+        <?php
+        while ($enemy = mysqli_fetch_assoc($enemies_query)) { ?>
+            <tr>
+                <td><?php echo $enemy["name"]; ?></td>
+                <form action="./database.php" method="post">
+                    <input name="enemy_id" value="<?php echo $enemy["enemy_id"]; ?>" type="hidden">
+                    <td><button type="submit" name="deleteEnemy" class="btn">Delete</button></td>
+                </form>
+                <td><a href="edit_enemy.php?id=<?php echo $enemy["enemy_id"]; ?>"><button class="btn">Edit</button></a></td>
+            </tr>
+        <?php } ?>
         </tbody>
     </table>
     <form id="playerForm">
         <div style="text-align: center;">
-            <button type="button" class="btn" id="addEnemyBtn" onclick="window.location.href='add_enemy.html';">Add Enemy</button>
+            <button type="button" class="btn" id="addEnemyBtn" onclick="window.location.href='add_enemy.php';">Add Enemy</button>
         </div>
     </form>
 
@@ -141,17 +150,18 @@ $locations_query = mysqli_query($connection, $sql);
             <th>Edit</th>
         </tr>
         </thead>
-        <tbody id="currentEnemies">
-        <tr>
-            <td>Basic Attack</td>
-            <td><button type="button" class="btn">Delete</button></td>
-            <td><button type="button" class="btn" onclick="window.location.href='edit_ability.php';">Edit</button></td>
-        </tr>
-        <tr>
-            <td>Magic Attack</td>
-            <td><button type="button" class="btn">Delete</button></td>
-            <td><button type="button" class="btn" onclick="window.location.href='edit_ability.php';">Edit</button></td>
-        </tr>
+        <tbody id="currentAbilities">
+        <?php
+        while ($ability = mysqli_fetch_assoc($abilities_query)) { ?>
+            <tr>
+                <td><?php echo $ability["name"]; ?></td>
+                <form action="./database.php" method="post">
+                    <input name="ability_id" value="<?php echo $ability["ability_id"]; ?>" type="hidden">
+                    <td><button type="submit" name="deleteAbility" class="btn">Delete</button></td>
+                </form>
+                <td><a href="edit_ability.php?id=<?php echo $ability["ability_id"]; ?>"><button class="btn">Edit</button></a></td>
+            </tr>
+        <?php } ?>
         </tbody>
     </table>
     <form id="playerForm">

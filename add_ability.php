@@ -1,13 +1,9 @@
-<?php
-include_once("connection.php");
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Location</title>
+    <title>Add Ability</title>
     <style>
         form {
             max-width: 400px;
@@ -41,22 +37,29 @@ include_once("connection.php");
     </style>
 </head>
 <body>
-<h1 class="title">Add New Location</h1>
+<h1 class="title">Add New Ability</h1>
 <form action="./database.php" method="post">
-    <label for="locationName">Name:</label>
-    <input type="text" id="locationName" name="locationName" required><br>
+    <label for="abilityName">Name:</label>
+    <input type="text" id="abilityName" name="abilityName" required><br>
 
-    <label for="description">Description:</label>
-    <input type="text" id="description" name="locationDescription" required><br>
+    <label for="abilityDescription">Description:</label>
+    <input type="text" id="abilityDescription" name="abilityDescription"><br>
 
-    <label for="type">Location Type</label>
-    <select id="type" name="locationType" required>
-        <option value="Spawn">Spawn</option>
+    <label for="abilityDamage">Damage/Heal:</label>
+    <input type="text" id="abilityDamage" name="abilityDamage" required><br>
+
+    <label for="type">Type</label>
+    <select id="type" name="abilityType" required>
+        <option value="Attack">Attack</option>
         <option value="Healing">Healing</option>
         <option value="Enemy">Enemy</option>
     </select><br><br>
 
-    <button type="submit" name="addLocation">Add Location</button>
+    <input type="checkbox" id="abilityEnemyOnly" name="abilityEnemyOnly" style="display: inline; width: auto;">
+    <label for="abilityEnemyOnly" style="display: inline">Enemy Only Ability?</label><br><br><br>
+
+
+    <button type="submit" name="addAbility">Add Ability</button>
     <button type="button" onclick="window.location.href='admin.php';">Cancel</button>
 </form>
 

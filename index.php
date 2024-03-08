@@ -1,8 +1,22 @@
 <?php
 include_once("connection.php");
 
-$sql = "SELECT player_id, name FROM Players";
-$players_query = mysqli_query($connection, $sql);
+$players_query = "";
+if (isset($_GET["search"]) && $_GET["search"] != "") {
+    // Update enemy name and location
+    $sql = "SELECT player_id, name FROM Players WHERE name = ?;";
+    $stmt = mysqli_stmt_init($connection);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $_GET["search"]);
+    mysqli_stmt_execute($stmt);
+    $players_query = $stmt->get_result();
+    mysqli_stmt_close($stmt);
+}
+else {
+    $sql = "SELECT player_id, name FROM Players";
+    $players_query = mysqli_query($connection, $sql);
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -94,7 +108,7 @@ $players_query = mysqli_query($connection, $sql);
         </div>
         <div style="text-align: center; margin-top: 10px;">
             <input type="text" id="searchPlayer" name="searchPlayer" placeholder="Search Player by Name">
-            <button type="button" class="btn" id="searchButton">Search</button>
+            <button type="button" class="btn" id="searchButton" onclick="window.location.href='index.php?search=' + document.getElementById('searchPlayer').value;">Search</button>
         </div>
     </form>
     <table>
@@ -121,7 +135,7 @@ $players_query = mysqli_query($connection, $sql);
         </tbody>
     </table>
     <button type="button" class="btn" id="PlayGame" onclick="window.location.href='play.html';">Play Game</button>
-    <button type="button" class="btn" id="GameAdmin" onclick="window.location.href='admin.html';">Login as Game Admin</button>
+    <button type="button" class="btn" id="GameAdmin" onclick="window.location.href='admin.php';">Login as Game Admin</button>
 </div>
 </body>
 </html>
