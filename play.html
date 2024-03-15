@@ -66,6 +66,13 @@
       width: 200px;
       margin: 8px auto;
     }
+    #logContainer {
+    border: black 1px solid;
+    width: 100%;
+    height: 200px;
+    padding: 0px 15px;
+    overflow-y: auto; 
+    }
 
   </style>
 </head>
@@ -73,21 +80,21 @@
   <div>
     <h1>Total Conquest</h1>
     <hr>
-      <h2 style="display: inline-block">Player: Juan</h2>
-      <h2 style="float: right;">Next Player: Alejandro</h2>
+      <h2 style="display: inline-block">Current Player: <span id="playerName"></span></h2><br>
+      <h2 style="display: inline-block">Next Player: <span id="nextPlayer"></span></h2>
     <div>
       <h3 style="display: inline-block; float: right;">Health: <span id="health">87</span>/100</h3>
-      <h3 style="display: inline-block">Turn: 10</h3>
-      <h3 style="text-align: center">Current Location: Oregon</h3>
+      <h3 style="display: inline-block">Turns Left: <span id="turns">10</span></h3>
+      <h3 style="text-align: center">Current Location: <span id="currentLocation">Oregon</span></h3>
     </div>
     <div id="moves">
       <div style="display: block; margin-right: auto; margin-left: auto">
-        <button type="button" class="btn move" onclick="chooseTarget()">Use Basic Attack</button>
-        <button type="button" class="btn move">Use Heal</button>
+        <button type="button" id="basicAttackBtn" class="btn move">Use Basic Attack</button>
+        <button type="button" id="useHealBtn" class="btn move">Use Heal</button>
       </div>
       <div style="display: block; margin-right: auto; margin-left: auto">
-        <button type="button" class="btn move" onclick="showLocations()">Change Location</button>
-        <button type="button" class="btn move">Skip Turn</button>
+        <button type="button" id="changeLocationBtn" class="btn move">Change Location</button>
+        <button type="button" id="skipTurnBtn" class="btn move">Skip Turn</button>
       </div>
     </div>
     <div id="locations" style="display: none;">
@@ -107,34 +114,10 @@
     </div>
     <div>
       <h3>Logs</h3>
-      <div style="border: black 1px solid; width: 100%; height: 200px; padding: 0px 15px">
-        <p>Plankton used Basic Attack and inflicted 20 damage on Alejandro!</p>
-        <p>Alejandro used Heal for 50 hp</p>
-        <p>Juan used Magic Attack and inflicted 45 damage on Plankton! Plankton is now at 0 hp</p>
-        <p>Plankton has died!</p>
+      <div id="logContainer">
       </div>
     </div>
   </div>
 </body>
-<script>
-  function showLocations() {
-    document.getElementById("moves").style.display = "none";
-    document.getElementById("locations").style.display = "block";
-  }
-
-  function cancelChangeLocation() {
-    document.getElementById("locations").style.display = "none";
-    document.getElementById("moves").style.display = "block";
-  }
-
-  function chooseTarget() {
-    document.getElementById("moves").style.display = "none";
-    document.getElementById("targets").style.display = "block";
-  }
-
-  function cancelAttack() {
-    document.getElementById("targets").style.display = "none";
-    document.getElementById("moves").style.display = "block";
-  }
-</script>
+<script src="play_game.js"></script>
 </html>
