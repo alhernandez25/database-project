@@ -2,12 +2,12 @@
 include_once("connection.php");
 
 $players_query = "";
-if (isset($_GET["search"]) && $_GET["search"] != "") {
+if (isset($_GET["searchPlayer"]) && $_GET["searchPlayer"] != "") {
     // Update enemy name and location
     $sql = "SELECT player_id, name FROM Players WHERE name = ?;";
     $stmt = mysqli_stmt_init($connection);
     mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_bind_param($stmt, "s", $_GET["search"]);
+    mysqli_stmt_bind_param($stmt, "s", $_GET["searchPlayer"]);
     mysqli_stmt_execute($stmt);
     $players_query = $stmt->get_result();
     mysqli_stmt_close($stmt);
@@ -108,7 +108,7 @@ else {
         </div>
         <div style="text-align: center; margin-top: 10px;">
             <input type="text" id="searchPlayer" name="searchPlayer" placeholder="Search Player by Name">
-            <button type="button" class="btn" id="searchButton" onclick="window.location.href='index.php?search=' + document.getElementById('searchPlayer').value;">Search</button>
+            <button type="button" class="btn" id="searchButton" onclick="window.location.href='index.php?searchPlayer=' + document.getElementById('searchPlayer').value;">Search</button>
         </div>
     </form>
     <table>
